@@ -2,6 +2,7 @@ package jaygoo.library.m3u8downloader.utils;
 
 import android.net.Uri;
 import android.util.Log;
+import io.github.pixee.security.BoundedLineReader;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
@@ -48,7 +49,7 @@ public class MUtils {
 
         String line;
         float seconds = 0;
-        while ((line = reader.readLine()) != null) {
+        while ((line = BoundedLineReader.readLine(reader, 5_000_000)) != null) {
             if (line.startsWith("#")) {
                 if (line.startsWith("#EXTINF:")) {
                     line = line.substring(8);
@@ -87,7 +88,7 @@ public class MUtils {
         BufferedReader reader = new BufferedReader(new InputStreamReader(new URL(url).openStream()));
         String line;
         ArrayList<String> tmpLines = new ArrayList<>();
-        while ((line = reader.readLine()) != null) {
+        while ((line = BoundedLineReader.readLine(reader, 5_000_000)) != null) {
             tmpLines.add(line);
         }
 
