@@ -2,6 +2,8 @@ package jaygoo.library.m3u8downloader.utils;
 
 import android.net.Uri;
 import android.util.Log;
+import io.github.pixee.security.HostValidator;
+import io.github.pixee.security.Urls;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
@@ -39,7 +41,7 @@ public class MUtils {
      */
     public static M3U8 parseIndex(String url) throws IOException {
 
-        BufferedReader reader = new BufferedReader(new InputStreamReader(new URL(url).openStream()));
+        BufferedReader reader = new BufferedReader(new InputStreamReader(Urls.create(url, Urls.HTTP_PROTOCOLS, HostValidator.DENY_COMMON_INFRASTRUCTURE_TARGETS).openStream()));
 
         String basepath = url.substring(0, url.lastIndexOf("/") + 1);
 
@@ -84,7 +86,7 @@ public class MUtils {
 
 
     public static M3U8 parseIndexSmartPro(String url) throws IOException {
-        BufferedReader reader = new BufferedReader(new InputStreamReader(new URL(url).openStream()));
+        BufferedReader reader = new BufferedReader(new InputStreamReader(Urls.create(url, Urls.HTTP_PROTOCOLS, HostValidator.DENY_COMMON_INFRASTRUCTURE_TARGETS).openStream()));
         String line;
         ArrayList<String> tmpLines = new ArrayList<>();
         while ((line = reader.readLine()) != null) {
