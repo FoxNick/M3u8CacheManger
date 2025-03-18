@@ -4,6 +4,8 @@ import android.os.Handler;
 import android.os.Message;
 import android.text.TextUtils;
 import android.util.Log;
+import io.github.pixee.security.HostValidator;
+import io.github.pixee.security.Urls;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -335,7 +337,7 @@ public class M3U8DownloadTask {
                         FileOutputStream fos = null;
                         InputStream inputStream = null;
                         try {
-                            URL url = new URL(m3U8Ts.obtainFullUrl(basePath));
+                            URL url = Urls.create(m3U8Ts.obtainFullUrl(basePath), Urls.HTTP_PROTOCOLS, HostValidator.DENY_COMMON_INFRASTRUCTURE_TARGETS);
                             HttpURLConnection conn = (HttpURLConnection) url.openConnection();
                             conn.setConnectTimeout(connTimeout);
                             conn.setReadTimeout(readTimeout);
